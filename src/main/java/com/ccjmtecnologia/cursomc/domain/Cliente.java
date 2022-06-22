@@ -32,18 +32,21 @@ public class Cliente implements Serializable{
 	private Integer type;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "client")
+	@OneToMany( mappedBy = "client" )
 	private List<Endereco> addresses = new ArrayList<>();
 
 	@ElementCollection
-	@CollectionTable(name = "TELEFONE")
+	@CollectionTable( name = "TELEFONE" )
 	private Set<String> phones = new HashSet<>();
+	
+	@OneToMany( mappedBy = "client" )
+	private List<Pedido> demands = new ArrayList<>();
 
 	public Cliente() {
 		
 	}
 
-	public Cliente(Integer id, String name, String email, String cpfOuCnpj, TipoCliente type) {
+	public Cliente( Integer id, String name, String email, String cpfOuCnpj, TipoCliente type ) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -108,6 +111,14 @@ public class Cliente implements Serializable{
 		this.phones = phones;
 	}
 
+	public List<Pedido> getDemands() {
+		return demands;
+	}
+
+	public void setDemands(List<Pedido> demands) {
+		this.demands = demands;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -125,5 +136,4 @@ public class Cliente implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
-	
 }
