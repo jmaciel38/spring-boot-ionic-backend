@@ -3,10 +3,12 @@ package com.ccjmtecnologia.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.ccjmtecnologia.cursomc.domain.Categoria;
 import com.ccjmtecnologia.cursomc.repositories.CategoriaRepository;
+import com.ccjmtecnologia.cursomc.services.exceptions.DataIntegrityException;
 import com.ccjmtecnologia.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -30,5 +32,15 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Not possible delete categories with products.");
+		}
+		
 	}
 }
