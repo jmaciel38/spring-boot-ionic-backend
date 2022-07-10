@@ -1,8 +1,11 @@
 package com.ccjmtecnologia.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -131,9 +134,27 @@ public class Pedido implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Pedido [id=" + id + ", moment=" + moment + ", payment=" + payment + ", client=" + client
-				+ ", deliveryAddress=" + deliveryAddress + ", items=" + items + "]";
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido number: ");
+		builder.append(getId());
+		builder.append(" Moment: ");
+		builder.append(sdf.format(getMoment()));
+		builder.append(" Client: ");
+		builder.append(getClient().getName());
+		builder.append(" Payment State: ");
+		builder.append(getPayment().getPayState().getDescription());
+		builder.append("\nDetails: \n");
+		for(ItemPedido ip: getItems()) {
+			builder.append(ip.toString());
+		}
+		builder.append("Total value: ");
+		builder.append(nf.format(getTotal()));
+		return builder.toString();
 	}
+
+	
 
 	
 }

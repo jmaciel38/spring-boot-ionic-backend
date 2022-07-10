@@ -32,7 +32,6 @@ public class PedidoResource {
 
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> save(@Valid @RequestBody Pedido obj) {
-		System.out.println(" *** PedidoResource *** " + obj);
 		obj = service.save(obj);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
